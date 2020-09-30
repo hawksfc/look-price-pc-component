@@ -24,16 +24,17 @@ public class LookWeb {
             lookWeb.menuInit();
             System.out.print("Elige una opcion: ");
             opc = scanner.nextInt();
+            scanner.nextLine();
             if (opc != 0) {
                 System.out.print("Ingresa tu busqueda: ");
-                search = scanner.next();
+                search = scanner.nextLine().replace(" ", "%20");
             }
             System.out.println("-------------------------------------------------------------------------------------------------------");
             switch (opc){
                 case 1:
                     int count = opc + 1;
-                    System.out.println("Busqueda en: " +lookWeb.listWebs.get(count++)[1]);
-                    lookWeb.searchDigitalife(lookWeb.listWebs.get(2)[2] + search );
+                    System.out.println("Busqueda en: " + lookWeb.listWebs.get(count++)[1]);
+                    lookWeb.searchDigitalife(lookWeb.listWebs.get(2)[2] + search);
                     System.out.println("Busqueda en: " +lookWeb.listWebs.get(count++)[1]);
                     lookWeb.searchCyberpuerta(lookWeb.listWebs.get(3)[2] + search);
                     System.out.println("Busqueda en: " +lookWeb.listWebs.get(count++)[1]);
@@ -96,7 +97,7 @@ public class LookWeb {
             Elements elements = lookPrice.getElements(lookPrice.getDocument(), "div.productoInfoBloq");
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("tituloHighlight").text());
-                System.out.println("Precio: " + element.select("div.precioGrid2.precioFlag").text());
+                System.out.println("Precio: $" + this.fixPrice(element.select("div.precioGrid2.precioFlag").text()));
                 System.out.println("Link: " + element.select("a").attr("href"));
                 System.out.println("-------------------------------------------------------------------------------------------------------");
             }
@@ -112,7 +113,7 @@ public class LookWeb {
                             elements = lookPrice.getElements(lookPrice.getDocument(), "div.productoInfoBloq");
                             for (Element element : elements) {
                                 System.out.println("Producto: " + element.getElementsByClass("tituloHighlight").text());
-                                System.out.println("Precio: " + element.select("div.precioGrid2.precioFlag").text());
+                                System.out.println("Precio: $" + this.fixPrice(element.select("div.precioGrid2.precioFlag").text()));
                                 System.out.println("Link: " + element.select("a").attr("href"));
                                 System.out.println("-------------------------------------------------------------------------------------------------------");
                             }
@@ -132,7 +133,7 @@ public class LookWeb {
             Elements elements = lookPrice.getElements(lookPrice.getDocument(), "li.cell.productData.small-12.small-order-1");
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("emproduct_right_title emsmoothtext cpGaProdsearchList-1").text());
-                System.out.println("Precio: " + element.getElementsByClass("price").first().text());
+                System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("price").first().text()));
                 System.out.println("Link: " + element.select("a").first().attr("href"));
                 System.out.println("-------------------------------------------------------------------------------------------------------");
             }
@@ -146,7 +147,7 @@ public class LookWeb {
                         elements = lookPrice.getElements(lookPrice.getDocument(), "li.cell.productData.small-12.small-order-1");
                         for (Element element : elements) {
                             System.out.println("Producto: " + element.getElementsByClass("emproduct_right_title emsmoothtext cpGaProdsearchList-1").text());
-                            System.out.println("Precio: " + element.getElementsByClass("price").first().text());
+                            System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("price").first().text()));
                             System.out.println("Link: " + element.select("a").first().attr("href"));
                             System.out.println("-------------------------------------------------------------------------------------------------------");
                         }
@@ -163,7 +164,7 @@ public class LookWeb {
             Elements elements = lookPrice.getElements(lookPrice.getDocument(), "div.search-result");
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("result-description").text());
-                System.out.println("Precio: " + element.getElementsByClass("result-price-search").text());
+                System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("result-price-search").select("span.result-price-search").not("span.result-price-search-iva").text()));
                 System.out.println("Link: https://www.zegucom.com.mx" + element.getElementsByClass("result-description").select("a").attr("href"));
                 System.out.println("-------------------------------------------------------------------------------------------------------");
             }
@@ -178,7 +179,7 @@ public class LookWeb {
             Elements elements = lookPrice.getElements(lookPrice.getDocument(), "li.ui-search-layout__item");
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("ui-search-item__title").text());
-                System.out.println("Precio: " + element.getElementsByClass("price-tag ui-search-price__part").first().text());
+                System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("price-tag ui-search-price__part").first().text()));
                 System.out.println("Link: " + element.select("a").first().attr("href"));
                 System.out.println("-------------------------------------------------------------------------------------------------------");
             }
@@ -192,7 +193,7 @@ public class LookWeb {
                         elements = lookPrice.getElements(lookPrice.getDocument(), "li.ui-search-layout__item");
                         for (Element element : elements) {
                             System.out.println("Producto: " + element.getElementsByClass("ui-search-item__title").text());
-                            System.out.println("Precio: " + element.getElementsByClass("price-tag ui-search-price__part").first().text());
+                            System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("price-tag ui-search-price__part").first().text()));
                             System.out.println("Link: " + element.select("a").first().attr("href"));
                             System.out.println("-------------------------------------------------------------------------------------------------------");
                         }
@@ -212,7 +213,7 @@ public class LookWeb {
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("a-size-base-plus a-color-base a-text-normal").text());
                 if (element.getElementsByClass("a-offscreen").first() != null){
-                    System.out.println("Precio: " + element.getElementsByClass("a-offscreen").first().text());
+                    System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("a-offscreen").first().text()));
                 }else {
                     System.out.println("Precio en el interior del enlace");
                 }
@@ -230,7 +231,7 @@ public class LookWeb {
                         for (Element element : elements) {
                             System.out.println("Producto: " + element.getElementsByClass("a-size-base-plus a-color-base a-text-normal").text());
                             if (element.getElementsByClass("a-offscreen").first() != null){
-                                System.out.println("Precio: " + element.getElementsByClass("a-offscreen").first().text());
+                                System.out.println("Precio: $" + this.fixPrice(element.getElementsByClass("a-offscreen").first().text()));
                             }else {
                                 System.out.println("Precio en el interior del enlace");
                             }
@@ -252,7 +253,7 @@ public class LookWeb {
             Elements elements = lookPrice.getElements(lookPrice.getDocument(), "td.oe_product ");
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("o_wsale_products_item_title").text());
-                System.out.println("Precio: " + element.getElementsByAttributeValue("itemprop","price").text());
+                System.out.println("Precio: $" + this.fixPrice(element.getElementsByAttributeValue("itemprop","price").text()));
                 System.out.println("Link: https://pcgaming.mx/" + element.getElementsByClass("o_wsale_products_item_title").select("a").first().attr("href"));
                 System.out.println("-------------------------------------------------------------------------------------------------------");
             }
@@ -266,7 +267,7 @@ public class LookWeb {
                         elements = lookPrice.getElements(lookPrice.getDocument(), "td.oe_product ");
                         for (Element element : elements) {
                             System.out.println("Producto: " + element.getElementsByClass("o_wsale_products_item_title").text());
-                            System.out.println("Precio: " + element.getElementsByAttributeValue("itemprop","price").text());
+                            System.out.println("Precio: $" + this.fixPrice(element.getElementsByAttributeValue("itemprop","price").text()));
                             System.out.println("Link: https://pcgaming.mx/" + element.getElementsByClass("o_wsale_products_item_title").select("a").first().attr("href"));
                             System.out.println("-------------------------------------------------------------------------------------------------------");
                         }
@@ -277,5 +278,16 @@ public class LookWeb {
         }else {
             System.out.println("Pagina no disponible");
         }
+    }
+
+    private float fixPrice(String price){
+        String specialChars = "/*!@#$%^&*()\"{}_[]|\\?/<>, ";
+        String strAux = "";
+        for (int i = 0; i < price.length(); i++){
+            if (!(specialChars.contains(price.substring(i, i+1))) && !Character.isLetter(price.charAt(i))){
+                strAux = strAux.concat(price.substring(i, i+1));
+            }
+        }
+        return Float.parseFloat(strAux);
     }
 }
