@@ -72,7 +72,7 @@ public class LookWeb {
     }
     private void initWebs(){
         listWebs.put(2, new String[]{"Digitalife","www.digitalife.com.mx","https://www.digitalife.com.mx/productos/busqueda/"});
-        listWebs.put(3, new String[]{"Cyberpuerta","www.digitalife.com.mx","https://www.cyberpuerta.mx/index.php?cl=search&searchparam="});
+        listWebs.put(3, new String[]{"Cyberpuerta","www.cyberpuerta.com.mx","https://www.cyberpuerta.mx/index.php?cl=search&searchparam="});
         listWebs.put(4, new String[]{"Zegucom","www.zegucom.com.mx","https://www.zegucom.com.mx/index.php?o=re&cons="});
         listWebs.put(5, new String[]{"MercadoLibre","www.mercadolibre.com.mx","https://listado.mercadolibre.com.mx/"});
         listWebs.put(6, new String[]{"Amazon MX","www.amazon.com.mx", "https://www.amazon.com.mx/s?k="});
@@ -129,7 +129,7 @@ public class LookWeb {
     public void searchCyberpuerta(String urlWeb){
         lookPrice = new LookPrice(urlWeb);
         if (lookPrice.getConnection() == 200) {
-            Elements elements = lookPrice.getElements(lookPrice.getDocument(), "li.cell productData.small-12.small-order-1");
+            Elements elements = lookPrice.getElements(lookPrice.getDocument(), "li.cell.productData.small-12.small-order-1");
             for (Element element : elements) {
                 System.out.println("Producto: " + element.getElementsByClass("emproduct_right_title emsmoothtext cpGaProdsearchList-1").text());
                 System.out.println("Precio: " + element.getElementsByClass("price").first().text());
@@ -143,7 +143,7 @@ public class LookWeb {
                     lookPrice = new LookPrice(pagUrl.select("a").first().attr("href"));
                     if (lookPrice.getConnection() == 200 && i > 1 && i < paginas.size()) {
                         System.out.println("Pagina " + i + "=================================================");
-                        elements = lookPrice.getElements(lookPrice.getDocument(), "li.cell productData.small-12.small-order-1");
+                        elements = lookPrice.getElements(lookPrice.getDocument(), "li.cell.productData.small-12.small-order-1");
                         for (Element element : elements) {
                             System.out.println("Producto: " + element.getElementsByClass("emproduct_right_title emsmoothtext cpGaProdsearchList-1").text());
                             System.out.println("Precio: " + element.getElementsByClass("price").first().text());
